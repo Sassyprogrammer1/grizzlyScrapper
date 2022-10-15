@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/gocolly/colly"
 )
@@ -13,7 +12,16 @@ func main() {
 	// for the execution of the attached callbacks while a collector job is running.
 	// To work with colly, you have to initialize a Collector:
 	collector := colly.NewCollector()
-	collector.SetRequestTimeout(120 * time.Second)
+	//collector.SetRequestTimeout(120 * time.Second)
+
+	colly.AllowedDomains(
+		"www.linkedin.com/",
+		"linkedin.com/",
+		"https://linkedin.com/",
+		"www.linkedin.com",
+		"linkedin.com",
+		"https://linkedin.com",
+	)
 	collector.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
@@ -23,5 +31,6 @@ func main() {
 	collector.OnError(func(r *colly.Response, e error) {
 		fmt.Println("Got this error:", e)
 	})
-	collector.Visit("https://www.linkedin.com/jobs/search/?currentJobId=3227124654&geoId=101282230&keywords=backend%20engineer&location=Germany&refresh=true")
+	//collector.Visit("https://dev.to/")
+	collector.Visit("https://www.linkedin.com/")
 }
